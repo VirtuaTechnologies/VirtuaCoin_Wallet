@@ -20,7 +20,7 @@ func ApplyRoutes(r *gin.RouterGroup) {
 	g := r.Group("/approve")
 	{
 
-		g.POST("", approve)
+		g.POST("", approveWithSalt)
 	}
 }
 
@@ -66,4 +66,24 @@ func sendSuccessResponse(c *gin.Context, hash string, userId string) {
 		logo.Errorf("failed to add transaction hash: %v to user id: %v, error: %s", hash, userId, err)
 	}
 	httpo.NewSuccessResponse(200, "trasaction initiated", payload).SendD(c)
+}
+
+func approveWithSalt(c *gin.Context) {
+	network := "matic"
+	var req ApproveWithSalt
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logo.Error("Invalid request body:%s", err)
+		httpo.NewErrorResponse(http.StatusBadRequest, " Invalid body").SendD(c)
+		return
+	}
+
+	hash, err := polygon.ApproveERC721(req.Mnemonic, common.HexToAddress(req.ToAddress), common.HexToAddress(req.ContractAddress), *big.NewInt(req.TokenId))
+	if err != nil {
+		httpo.NewErrorResponse(http.StatusInternalServerError, "failed to approve").SendD(c)
+		logo.Errorf("failed to approve to: %v from wallet of userId: %v, network: %v, contractAddr: %v, tokenId: %v, error: %s", req.ToAddress,
+			req.UserId, network, req.ContractAddress, req.TokenId, err)
+		return
+	}
+	sendSuccessResponse(c, hash, req.UserId)
+
 }
