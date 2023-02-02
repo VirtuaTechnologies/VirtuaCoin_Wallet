@@ -20,7 +20,8 @@ func ApplyRoutes(r *gin.RouterGroup) {
 	g := r.Group("/erc721")
 	{
 
-		g.POST("", transfer)
+		g.POST("", transferWithSalt)
+
 	}
 }
 
