@@ -72,7 +72,7 @@ func approveWithSalt(c *gin.Context) {
 	network := "matic"
 	var req ApproveWithSalt
 	if err := c.ShouldBindJSON(&req); err != nil {
-		logo.Error("Invalid request body:%s", err)
+		logo.Errorf("Invalid request body:%s", err)
 		httpo.NewErrorResponse(http.StatusBadRequest, " Invalid body").SendD(c)
 		return
 	}
