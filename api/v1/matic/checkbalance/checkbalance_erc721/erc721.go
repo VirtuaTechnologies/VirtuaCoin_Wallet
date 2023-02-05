@@ -20,7 +20,7 @@ func ApplyRoutes(r *gin.RouterGroup) {
 	g := r.Group("/erc721")
 	{
 
-		g.POST("", erc721CheckBalance)
+		g.POST("", erc721CheckBalanceWithSalt)
 	}
 }
 
@@ -59,4 +59,29 @@ func erc721CheckBalance(c *gin.Context) {
 		Balance: balance.String(),
 	}
 	httpo.NewSuccessResponse(200, "balance successfully fetched", payload).SendD(c)
+}
+
+func erc721CheckBalanceWithSalt(c *gin.Context) {
+	network := "matic"
+	var req CheckErc721BalanceWithSalt
+	err := c.ShouldBindJSON(&req)
+	if err != nil {
+		httpo.NewErrorResponse(http.StatusBadRequest, "body is invalid").SendD(c)
+
+		return
+	}
+	var balance *big.Int
+	balance, err = polygon.GetERC721Balance(req.Mnemonic, common.HexToAddress(req.ContractAddr))
+	if err != nil {
+		httpo.NewErrorResponse(http.StatusInternalServerError, "failed to get ERC721 balance").SendD(c)
+		logo.Errorf("failed to get ERC721 balance of wallet of userId: %v , network: %v, contractAddr: %v , error: %s", req.UserId,
+			network, req.ContractAddr, err)
+		return
+	}
+
+	payload := CheckErc721BalancePayload{
+		Balance: balance.String(),
+	}
+	httpo.NewSuccessResponse(http.StatusOK, "balance successfully fetched", payload).SendD(c)
+
 }
