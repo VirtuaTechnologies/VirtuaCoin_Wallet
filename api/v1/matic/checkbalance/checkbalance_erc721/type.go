@@ -12,5 +12,4 @@ type CheckErc721BalancePayload struct {
 type CheckErc721BalanceWithSalt struct {
 	UserId       string `json:"userId" binding:"required"`
 	ContractAddr string `json:"contractAddr" binding:"required"`
-	Mnemonic     string `json:"mnemonic" binding:"required"`
 }
