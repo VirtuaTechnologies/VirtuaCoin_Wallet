@@ -19,10 +19,9 @@ Wallet provides these features
     - [ ] checkbalance
     - [ ] burn
 - VirtuaCoinNFT
-    - [ ] approve
-    - [ ] approveAll
-    - [ ] transfer
-    - [ ] checkbalance
+    - [ ] delegateAssetCreation
+    - [ ] grantRole
+    - [ ] burn
 
 ## Redis for development
 ```bash
