@@ -1,8 +1,9 @@
 package signmessage
 
-type SignMessageRequest struct {
-	UserId  string `json:"userId" binding:"required"`
-	Message string `json:"message" binding:"required"`
+type SignMessageRequestWithSalt struct {
+	WalletAddress string `json:"walletAddress" binding:"required"`
+	Mnemonic      string `json:"mnemonic" binding:"required"`
+	Message       string `json:"message" binding:"required"`
 }
 
 type SignMessagePayload struct {

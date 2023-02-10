@@ -10,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-func ApproveERC721(mnemonic string, toAddress common.Address, contractAddr common.Address, tokenId big.Int) (string, error) {
+func BurnERC721(mnemonic string, contractAddr common.Address, tokenId big.Int) (string, error) {
 	privKey, err := wallet.GetWallet(mnemonic, GetPath())
 	if err != nil {
 		return "", err
@@ -24,10 +24,9 @@ func ApproveERC721(mnemonic string, toAddress common.Address, contractAddr commo
 	if err != nil {
 		return "", err
 	}
-	tx, err := rawtransaction.SendRawTransaction(privKey, *client, int64(chainId), 310000, contractAddr, generc721.Erc721MetaData.ABI, "approve", toAddress, &tokenId)
+	tx, err := rawtransaction.SendRawTransaction(privKey, *client, int64(chainId), 310000, contractAddr, generc721.Erc721MetaData.ABI, "burn", &tokenId)
 	if err != nil {
 		return "", err
 	}
 	return tx.Hash().Hex(), nil
-
 }

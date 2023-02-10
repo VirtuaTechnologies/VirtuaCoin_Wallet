@@ -1,6 +1,6 @@
-package delegate_erc721
+package delegateassetcreation
 
-type DelegateErc721Request struct {
+type DelegateAssetCreationRequest struct {
 	WalletAddress   string `json:"walletAddress" binding:"required"`
 	ContractAddress string `json:"contractAddress" binding:"required"`
 	MetadataURI     string `json:"metadataURI" binding:"required,min=1"`

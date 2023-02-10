@@ -10,9 +10,6 @@ import (
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/app/stage/appinit"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/config/envconfig"
 
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/models/user"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/store"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/testingcommon"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,22 +19,15 @@ func Test_Transfer(t *testing.T) {
 
 	appinit.Init()
 	gin.SetMode(gin.TestMode)
-	t.Cleanup(testingcommon.DeleteCreatedEntities())
-	err := store.DB.Model(&user.User{}).Create(&user.User{
-		UserId:   "60",
-		Mnemonic: "mobile attend orange oxygen valley fan grape suit tool fancy quality disease potato bean trophy",
-	}).Error
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	t.Run("Native token", func(t *testing.T) {
 		rr := httptest.NewRecorder()
 
-		req := TransferRequest{
-			UserId: "60",
-			To:     "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
-			Amount: 1,
+		req := TransferRequestSalt{
+			WalletAddress: "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
+			Mnemonic:      "test test test test test test",
+			To:            "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
+			Amount:        1,
 		}
 		d, e := json.Marshal(req)
 		if e != nil {
@@ -49,7 +39,7 @@ func Test_Transfer(t *testing.T) {
 			t.Fatal(e)
 		}
 		c.Request = httpReq
-		nativeTransfer(c)
+		nativeTransferWithSalt(c)
 
 		assert.Equal(t, 200, rr.Result().StatusCode)
 

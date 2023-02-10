@@ -1,15 +1,12 @@
 package verifysignature
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 
 	"github.com/TheLazarusNetwork/go-helpers/httpo"
 	"github.com/TheLazarusNetwork/go-helpers/logo"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/models/user"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/network/polygon"
-	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,24 +27,12 @@ func verifySignature(c *gin.Context) {
 		httpo.NewErrorResponse(http.StatusBadRequest, err.Error()).SendD(c)
 		return
 	}
-	mnemonic, err := user.GetMnemonic(req.UserId)
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			httpo.NewErrorResponse(httpo.UserNotFound, "user not found").Send(c, 404)
-			return
-		}
 
-		httpo.NewErrorResponse(http.StatusInternalServerError, "failed to fetch user").SendD(c)
-		logo.Errorf("failed to fetch user mnemonic for userId: %v, error: %s",
-			req.UserId, err)
-		return
-	}
-
-	res, err := polygon.VerifySignature(mnemonic, req.Message, req.Signature)
+	res, err := polygon.VerifySignature(req.Mnemonic, req.Message, req.Signature)
 	if err != nil {
 		httpo.NewErrorResponse(http.StatusInternalServerError, "failed to verify signature").SendD(c)
 		logo.Errorf("failed to verify signature from wallet of userId: %v and network: %v, error: %s",
-			req.UserId, network, err)
+			req.WalletAddress, network, err)
 		return
 	}
 

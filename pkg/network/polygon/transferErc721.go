@@ -5,7 +5,7 @@ import (
 
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/generated/generc721"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet"
-	rawtrasaction "github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet/rawtransaction"
+	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet/rawtransaction"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -27,7 +27,7 @@ func TransferERC721(mnemonic string, toAddress common.Address, contractAddr comm
 	}
 	publicKey := privKey.PublicKey
 	fromAddr := crypto.PubkeyToAddress(publicKey)
-	tx, err := rawtrasaction.SendRawTrasac(privKey, *client, int64(chainId), 310000, contractAddr, generc721.Erc721MetaData.ABI, "safeTransferFrom", fromAddr, toAddress, &tokenId)
+	tx, err := rawtransaction.SendRawTransaction(privKey, *client, int64(chainId), 310000, contractAddr, generc721.Erc721MetaData.ABI, "safeTransferFrom", fromAddr, toAddress, &tokenId)
 	if err != nil {
 		return "", err
 	}

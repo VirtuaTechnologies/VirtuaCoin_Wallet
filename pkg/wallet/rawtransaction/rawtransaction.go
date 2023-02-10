@@ -1,4 +1,4 @@
-package rawtrasaction
+package rawtransaction
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 	"github.com/ethereum/go-ethereum/params"
 )
 
-func SendRawTrasac(privateKey *ecdsa.PrivateKey, client ethclient.Client, chainId int64, gas uint64, contractAddress common.Address, abiS string, method string, args ...interface{}) (*types.Transaction, error) {
+func SendRawTransaction(privateKey *ecdsa.PrivateKey, client ethclient.Client, chainId int64, gas uint64, contractAddress common.Address, abiS string, method string, args ...interface{}) (*types.Transaction, error) {
 
 	abiP, err := abi.JSON(strings.NewReader(abiS))
 	if err != nil {

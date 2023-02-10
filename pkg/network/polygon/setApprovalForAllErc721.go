@@ -3,7 +3,7 @@ package polygon
 import (
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/generated/generc721"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet"
-	rawtrasaction "github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet/rawtransaction"
+	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet/rawtransaction"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
@@ -22,7 +22,7 @@ func SetAprovalForAllErc721(mnemonic string, operatorAddr common.Address, contra
 	if err != nil {
 		return "", err
 	}
-	tx, err := rawtrasaction.SendRawTrasac(privKey, *client, int64(chainId), 310000, contractAddr, generc721.Erc721MetaData.ABI, "setApprovalForAll", operatorAddr, &approved)
+	tx, err := rawtransaction.SendRawTransaction(privKey, *client, int64(chainId), 310000, contractAddr, generc721.Erc721MetaData.ABI, "setApprovalForAll", operatorAddr, &approved)
 	if err != nil {
 		return "", err
 	}

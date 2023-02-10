@@ -5,7 +5,7 @@ import (
 
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/generated/generc20"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet"
-	rawtrasaction "github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet/rawtransaction"
+	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet/rawtransaction"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
@@ -36,7 +36,7 @@ func TransferERC20(mnemonic string, toAddress common.Address, contractAddr commo
 	if err != nil {
 		return "", err
 	}
-	tx, err := rawtrasaction.SendRawTrasac(privKey, *client, int64(chainId), 310000, contractAddr, generc20.Erc20MetaData.ABI, "transfer", toAddress, &amount)
+	tx, err := rawtransaction.SendRawTransaction(privKey, *client, int64(chainId), 310000, contractAddr, generc20.Erc20MetaData.ABI, "transfer", toAddress, &amount)
 	if err != nil {
 		return "", err
 	}
@@ -73,7 +73,7 @@ func TransferERC20AcceptFloat(mnemonic string, toAddress common.Address, contrac
 	if err != nil {
 		return "", err
 	}
-	tx, err := rawtrasaction.SendRawTrasac(privKey, *client, int64(chainId), 310000, contractAddr, generc20.Erc20MetaData.ABI, "transfer", toAddress, &amountInBigInt)
+	tx, err := rawtransaction.SendRawTransaction(privKey, *client, int64(chainId), 310000, contractAddr, generc20.Erc20MetaData.ABI, "transfer", toAddress, &amountInBigInt)
 	if err != nil {
 		return "", err
 	}

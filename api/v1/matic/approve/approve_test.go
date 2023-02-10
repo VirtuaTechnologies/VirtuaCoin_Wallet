@@ -11,9 +11,6 @@ import (
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/app/stage/appinit"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/config/envconfig"
 
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/models/user"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/store"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/testingcommon"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
@@ -23,14 +20,6 @@ func Test_Approve(t *testing.T) {
 
 	appinit.Init()
 	gin.SetMode(gin.TestMode)
-	t.Cleanup(testingcommon.DeleteCreatedEntities())
-	err := store.DB.Model(&user.User{}).Create(&user.User{
-		UserId:   "60",
-		Mnemonic: "mobile attend orange oxygen valley fan grape suit tool fancy quality disease potato bean trophy",
-	}).Error
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	type network struct {
 		name          string
@@ -54,8 +43,8 @@ func Test_Approve(t *testing.T) {
 		for _, n := range networks {
 			rr := httptest.NewRecorder()
 
-			req := ApproveRequest{
-				UserId:          "60",
+			req := ApproveWithSalt{
+				WalletAddress:   "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
 				ToAddress:       "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
 				ContractAddress: n.erc721Address,
 			}
@@ -69,7 +58,7 @@ func Test_Approve(t *testing.T) {
 				t.Fatal(e)
 			}
 			c.Request = httpReq
-			approve(c)
+			approveWithSalt(c)
 
 			assert.Equal(t, 200, rr.Result().StatusCode)
 		}
@@ -80,8 +69,8 @@ func Test_Approve(t *testing.T) {
 		for _, n := range networks {
 			rr := httptest.NewRecorder()
 
-			req := ApproveRequest{
-				UserId:          "60",
+			req := ApproveWithSalt{
+				WalletAddress:   "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
 				ToAddress:       "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
 				ContractAddress: n.erc721Address,
 			}
@@ -96,7 +85,7 @@ func Test_Approve(t *testing.T) {
 				t.Fatal(e)
 			}
 			c.Request = httpReq
-			approve(c)
+			approveWithSalt(c)
 			assert.Equal(t, 200, rr.Result().StatusCode)
 		}
 
@@ -105,8 +94,8 @@ func Test_Approve(t *testing.T) {
 		for _, n := range networks {
 			rr := httptest.NewRecorder()
 
-			req := ApproveRequest{
-				UserId:          "60",
+			req := ApproveWithSalt{
+				WalletAddress:   "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
 				ToAddress:       "0x876FA09c042E6CA0c2f73AAe1DD7Bf712b6BF8f0",
 				ContractAddress: n.erc721Address,
 			}
@@ -123,7 +112,7 @@ func Test_Approve(t *testing.T) {
 				t.Fatal(e)
 			}
 			c.Request = httpReq
-			approve(c)
+			approveWithSalt(c)
 			assert.Equal(t, 200, rr.Result().StatusCode)
 		}
 

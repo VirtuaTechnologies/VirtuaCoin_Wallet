@@ -10,9 +10,6 @@ import (
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/app/stage/appinit"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/config/envconfig"
 
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/models/user"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/store"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/testingcommon"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,21 +19,13 @@ func Test_CheckBalance(t *testing.T) {
 
 	appinit.Init()
 	gin.SetMode(gin.TestMode)
-	t.Cleanup(testingcommon.DeleteCreatedEntities())
-	err := store.DB.Model(&user.User{}).Create(&user.User{
-		UserId:   "62",
-		Mnemonic: "long hen advance measure donate child method aspect ceiling saddle turkey cement duck finger armor clarify hamster acid advice caution lazy deal invite remind",
-	}).Error
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	t.Run("Fetch user balance for ERC20", func(t *testing.T) {
 		rr := httptest.NewRecorder()
 		c, _ := gin.CreateTestContext(rr)
 
 		req := CheckErc20BalanceRequest{
-			UserId: "62",
+			WalletAddress: "0x2d7882bedcbfddce29ba99965dd3cdf7fcb10a1e",
 		}
 		body, err := json.Marshal(req)
 		if err != nil {
@@ -48,7 +37,7 @@ func Test_CheckBalance(t *testing.T) {
 			t.Fatal(err)
 		}
 		c.Request = httpReq
-		erc20CheckBalance(c)
+		erc20CheckBalanceSalt(c)
 		assert.Equal(t, 200, rr.Result().StatusCode)
 	})
 }

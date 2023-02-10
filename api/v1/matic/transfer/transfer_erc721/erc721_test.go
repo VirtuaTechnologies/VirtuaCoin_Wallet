@@ -10,9 +10,6 @@ import (
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/app/stage/appinit"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/config/envconfig"
 
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/models/user"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/store"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/testingcommon"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,14 +19,6 @@ func Test_Transfer(t *testing.T) {
 
 	appinit.Init()
 	gin.SetMode(gin.TestMode)
-	t.Cleanup(testingcommon.DeleteCreatedEntities())
-	err := store.DB.Model(&user.User{}).Create(&user.User{
-		UserId:   "60",
-		Mnemonic: "mobile attend orange oxygen valley fan grape suit tool fancy quality disease potato bean trophy",
-	}).Error
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	type network struct {
 		name          string
@@ -71,7 +60,7 @@ func Test_Transfer(t *testing.T) {
 				t.Fatal(e)
 			}
 			c.Request = httpReq
-			transfer(c)
+			transferWithSalt(c)
 			assert.Equal(t, 200, rr.Result().StatusCode)
 		}
 
