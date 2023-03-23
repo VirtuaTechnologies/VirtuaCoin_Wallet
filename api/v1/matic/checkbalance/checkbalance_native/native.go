@@ -3,6 +3,7 @@ package checkbalance_native
 import (
 	"math/big"
 	"net/http"
+	"strconv"
 
 	"github.com/TheLazarusNetwork/go-helpers/httpo"
 	"github.com/TheLazarusNetwork/go-helpers/logo"
@@ -35,8 +36,11 @@ func nativeCheckBalanceWithSalt(c *gin.Context) {
 		return
 	}
 
+	balanceInFloat, _ := balance.Float64()
+	balanceInString := strconv.FormatFloat(balanceInFloat, 'f', -1, 64)
+
 	payload := CheckNativeBalancePayload{
-		Balance: balance.String(),
+		Balance: balanceInString,
 	}
 	httpo.NewSuccessResponse(200, "balance successfully fetched", payload).SendD(c)
 }
