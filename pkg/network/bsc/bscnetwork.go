@@ -14,7 +14,7 @@ import (
 )
 
 func GetChainId() (int, error) {
-	return 80001, nil
+	return envconfig.EnvVars.CHAIN_ID_BSC, nil
 }
 
 func GetPath() string {
@@ -76,7 +76,7 @@ func GetNetworkInfo() (*networkInfo, error) {
 		return nil, err
 	}
 	return &networkInfo{
-		Name:    "polygon",
+		Name:    "bsc",
 		ChainId: big.NewInt(int64(chainId)),
 	}, nil
 }

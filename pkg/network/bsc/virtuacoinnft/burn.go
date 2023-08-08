@@ -5,7 +5,7 @@ import (
 	"math/big"
 
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/generated/virtuacoinnft"
-	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/network/polygon"
+	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/network/bsc"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/pkg/wallet/rawtransaction"
 	"github.com/ethereum/go-ethereum/common"
@@ -13,16 +13,16 @@ import (
 )
 
 func Burn(mnemonic string, contractAddr common.Address, tokenId big.Int) (string, error) {
-	privKey, err := wallet.GetWallet(mnemonic, polygon.GetPath())
+	privKey, err := wallet.GetWallet(mnemonic, bsc.GetPath())
 	if err != nil {
 		return "", err
 	}
 
-	client, err := ethclient.Dial(polygon.GetRpcUrl())
+	client, err := ethclient.Dial(bsc.GetRpcUrl())
 	if err != nil {
 		return "", err
 	}
-	chainId, err := polygon.GetChainId()
+	chainId, err := bsc.GetChainId()
 	if err != nil {
 		return "", err
 	}

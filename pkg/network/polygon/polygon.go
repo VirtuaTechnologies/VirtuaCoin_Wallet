@@ -14,7 +14,7 @@ import (
 )
 
 func GetChainId() (int, error) {
-	return 80001, nil
+	return envconfig.EnvVars.CHAIN_ID_POLYGON, nil
 }
 
 func GetPath() string {
