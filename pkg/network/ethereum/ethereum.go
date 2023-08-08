@@ -19,7 +19,7 @@ import (
 )
 
 func GetChainId() (int, error) {
-	return 1, nil
+	return envconfig.EnvVars.CHAIN_ID_ETHEREUM, nil
 }
 
 func GetPath() string {

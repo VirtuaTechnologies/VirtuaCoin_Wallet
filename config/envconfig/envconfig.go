@@ -23,8 +23,9 @@ type config struct {
 	APP_ENVIRONMENT                string   `env:"APP_ENVIRONMENT,notEmpty"`
 	OPERATOR_MNEMONIC              string   `env:"OPERATOR_MNEMONIC,notEmpty"`
 	VIRTUACOINNFT_CONTRACT_ADDRESS string   `env:"VIRTUACOINNFT_CONTRACT_ADDRESS,notEmpty"`
-	CHAIN_ID_POLYGON                int      `env:"CHAIN_ID_POLYGON,notEmpty"`
+	CHAIN_ID_POLYGON               int      `env:"CHAIN_ID_POLYGON,notEmpty"`
 	CHAIN_ID_BSC                   int      `env:"CHAIN_ID_BSC,notEmpty"`
+	CHAIN_ID_ETHEREUM              int      `env:"CHAIN_ID_ETHEREUM,notEmpty"`
 }
 
 var EnvVars config = config{}
