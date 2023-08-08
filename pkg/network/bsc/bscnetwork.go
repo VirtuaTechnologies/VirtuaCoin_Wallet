@@ -1,4 +1,4 @@
-package polygon
+package bsc
 
 import (
 	"context"
@@ -14,7 +14,7 @@ import (
 )
 
 func GetChainId() (int, error) {
-	return envconfig.EnvVars.CHAIN_ID_POLYGON, nil
+	return envconfig.EnvVars.CHAIN_ID_BSC, nil
 }
 
 func GetPath() string {
@@ -22,7 +22,7 @@ func GetPath() string {
 }
 
 func GetRpcUrl() string {
-	return envconfig.EnvVars.NETWORK_RPC_URL_POLYGON
+	return envconfig.EnvVars.NETWORK_RPC_URL_BSC
 }
 
 func GetBalance(mnemonic string) (*big.Int, error) {
@@ -76,7 +76,7 @@ func GetNetworkInfo() (*networkInfo, error) {
 		return nil, err
 	}
 	return &networkInfo{
-		Name:    "polygon",
+		Name:    "bsc",
 		ChainId: big.NewInt(int64(chainId)),
 	}, nil
 }

@@ -18,10 +18,14 @@ type config struct {
 	ALLOWED_ORIGIN                 []string `env:"ALLOWED_ORIGIN,notEmpty" envSeparator:","`
 	NETWORK_RPC_URL_ETHEREUM       string   `env:"NETWORK_RPC_URL_ETHEREUM,notEmpty"`
 	NETWORK_RPC_URL_POLYGON        string   `env:"NETWORK_RPC_URL_POLYGON,notEmpty"`
+	NETWORK_RPC_URL_BSC            string   `env:"NETWORK_RPC_URL_BSC,notEmpty"`
 	TOKEN                          string   `env:"TOKEN,notEmpty"`
 	APP_ENVIRONMENT                string   `env:"APP_ENVIRONMENT,notEmpty"`
 	OPERATOR_MNEMONIC              string   `env:"OPERATOR_MNEMONIC,notEmpty"`
 	VIRTUACOINNFT_CONTRACT_ADDRESS string   `env:"VIRTUACOINNFT_CONTRACT_ADDRESS,notEmpty"`
+	CHAIN_ID_POLYGON               int      `env:"CHAIN_ID_POLYGON,notEmpty"`
+	CHAIN_ID_BSC                   int      `env:"CHAIN_ID_BSC,notEmpty"`
+	CHAIN_ID_ETHEREUM              int      `env:"CHAIN_ID_ETHEREUM,notEmpty"`
 }
 
 var EnvVars config = config{}
