@@ -1,6 +1,7 @@
 package apiv1
 
 import (
+	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/api/v1/bsc"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/api/v1/matic"
 	"github.com/VirtuaTechnologies/VirtuaCoin_Wallet/api/v1/wallet"
 	"github.com/gin-gonic/gin"
@@ -13,5 +14,6 @@ func ApplyRoutes(r *gin.RouterGroup) {
 		// register.ApplyRoutes(v1)
 		wallet.ApplyRoutes(v1)
 		matic.ApplyRoutes(v1)
+		bsc.ApplyRoutes(v1)
 	}
 }
