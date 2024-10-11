@@ -3,6 +3,7 @@ package rawtransaction
 import (
 	"context"
 	"crypto/ecdsa"
+	"fmt"
 	"math/big"
 	"strings"
 
@@ -17,7 +18,7 @@ import (
 )
 
 func SendRawTransaction(privateKey *ecdsa.PrivateKey, client ethclient.Client, chainId int64, gas uint64, contractAddress common.Address, abiS string, method string, args ...interface{}) (*types.Transaction, error) {
-
+	// Change this line
 	abiP, err := abi.JSON(strings.NewReader(abiS))
 	if err != nil {
 		logo.Errorf("failed to parse JSON abi, error %s", err)
@@ -53,7 +54,10 @@ func SendRawTransaction(privateKey *ecdsa.PrivateKey, client ethclient.Client, c
 	bn, _ := client.BlockNumber(context.Background())
 
 	bignumBn := big.NewInt(0).SetUint64(bn)
-	blk, _ := client.BlockByNumber(context.Background(), bignumBn)
+	blk, err := client.BlockByNumber(context.Background(), bignumBn)
+	if err != nil {
+		fmt.Println("error idhar :", err)
+	}
 	baseFee := misc.CalcBaseFee(config, blk.Header())
 	big2 := big.NewInt(2)
 	mulRes := big.NewInt(0).Mul(baseFee, big2)
